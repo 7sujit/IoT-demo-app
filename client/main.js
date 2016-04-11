@@ -20,6 +20,14 @@ function showLabel(){
 
 // Template.
 
+Template.dashboard.helpers({
+    'accountName' : function(){
+        var useDetailsVar = Meteor.user();
+        console.log(useDetailsVar.emails[0].address);
+        return useDetailsVar.emails[0].address;
+    },
+});
+
 Template.dashboard.events({
     'click .logout' : function(){
         Meteor.logout();
