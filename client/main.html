@@ -1,0 +1,85 @@
+<head>
+  <title>Test</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+  <style media="screen">
+      * {
+          font-family: 'Lato', sans-serif;
+          /*border-style: dotted;
+          border-width: 1px;*/
+      }
+  </style>
+</head>
+
+<body style="background:#667467">
+  <div class="container">
+
+  </div>
+</body>
+
+<template name="main">
+    <div class="row" align="center" style="margin:25px;border:10px;padding:10px">
+        <div class="col-lg-4">
+
+        </div>
+        <div class="col-lg-4">
+            <div class="row well" style="background : #B9CFD4">
+                <h1>Project _/\_</h1>
+            </div>
+            {{>yield}}
+        </div>
+    </div>
+</template>
+
+<template name="dashboard">
+    <h3>Hello world</h3>
+    <p>
+        {{yourname}}
+    </p>
+    <button type="button" class="logout btn btn-primary" name="button">Logout</button>
+
+</template>
+
+<template name="register">
+
+        <div align="center" class="row" style="margin:10px;padding:10px;border:5px">
+            <h5>Registration From</h5>
+
+            <form role="form" id="reg-form">
+                <!-- <div class="form-group">
+                    <input type="text"  id="uname" placeholder="Enter Name">
+                </div> -->
+                <div class="form-group">
+                    <input type="email"  id="uemail" placeholder="Enter e-mail id">
+                </div>
+                <div class="form-group">
+                    <input type="password" id='xpwd1' placeholder="Enter Password"><br>
+                    <input type="password" id='xpwd2' placeholder="Enter passowrd (again)">
+                </div>
+                <div class="row" style="margin:5px;padding:2px;">
+                    <label class="label label-danger"  id="alertLable" style="visibility:hidden">Passwords didn't match !</label>
+                </div>
+                <button type="submit" class="btn btn-info">Submit</button>
+            </form>
+        </div>
+</template>
+
+<template name="login">
+    <div class="row">
+        <div class="col-lg-4">
+
+        </div>
+        <div align="center" class="row" style="margin:10px;padding:10px;border:5px">
+
+            <form role="form" id="login-form">
+                <div class="form-group">
+                    <input type="email"  id="lemail" placeholder="Enter email">
+                </div>
+                <div class="form-group">
+                    <input type="password"  id="lpasswd" placeholder="Enter password">
+                </div>
+                <button type="submit" class="btn btn-info" id="login-btn">Login</button>
+                <button type="button" id="reg-btn" class="btn btn-primary">Register</button>
+            </form>
+        </div>
+    </div>
+</template>
