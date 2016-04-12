@@ -1,17 +1,19 @@
 <head>
   <title>Project</title>
-  <link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+  <!-- <link href='https://fonts.googleapis.com/css?family=Titillium+Web:400' rel='stylesheet' type='text/css'> -->
+  <link href='https://fonts.googleapis.com/css?family=Cabin' rel='stylesheet' type='text/css'>
   <style media="screen">
       * {
-          font-family: 'Ubuntu', sans-serif;
+          /*font-family: 'Titillium Web', sans-serif;*/
+          font-family: 'Cabin', sans-serif;
           /*border-style: solid;
           border-width: 1px;*/
       }
   </style>
 </head>
 
-<body style="background:#a6abab">
-  <div class="container">
+<body style="background:#9fa8a3">
+  <div class="container-fluid">
 
   </div>
 </body>
@@ -19,7 +21,7 @@
 <template name="main">
     <div class="row" align="center" style="margin:10px;padding:10px">
         <nav class="navbar navbar-default">
-          <div class="container-fluid">
+          <div class="container-fluid" style="background-color:#e3e0cf">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
               <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -39,7 +41,7 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav navbar-right">
                 {{#if currentUser}}
-                    <li><a href="#" class="logout">Logout</a></li>
+                    <li><a href="#" class="logout" style="color:blue">(Logout)</a></li>
                 {{/if}}
               </ul>
             </div><!-- /.navbar-collapse -->
@@ -95,10 +97,10 @@
 
 <template name="login">
     <div class="row">
-        <div class="col-lg-3">
+        <div class="col-lg-4">
 
         </div>
-        <div align="center" class="col-lg-5 well" style="margin:10px;padding:10px;border:5px">
+        <div align="center" class="col-lg-3 well" style="margin:10px;padding:10px;border:5px;background-color:#e3e0cf">
 
             <form role="form" id="login-form">
                 <div class="form-group">

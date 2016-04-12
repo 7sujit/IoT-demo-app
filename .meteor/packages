@@ -23,3 +23,4 @@ iron:router
 twbs:bootstrap
 accounts-password
 gwendall:auth-client-callbacks
+mrt:chartjs
