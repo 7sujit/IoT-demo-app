@@ -18,6 +18,11 @@ function showLabel(){
     x.style.visibility = 'visible';
 }
 
+function showLoginLabel() {
+    var x = document.getElementById('alertLoginLable');
+    x.style.visibility = 'visible';
+}
+
 // Template.
 
 Template.dashboard.helpers({
@@ -61,7 +66,6 @@ Template.register.events({
             email : emailVar,
             password : pwdVar,
         });
-        Router.route('/dashboard');
     },
 
 });
@@ -73,9 +77,18 @@ Template.login.events({
         var uemailVar = target.lemail.value;
         var passwdVar = target.lpasswd.value;
 
-        Meteor.loginWithPassword(uemailVar, passwdVar);
-        Router.go('/dashboard');
-
+        Meteor.loginWithPassword(uemailVar, passwdVar, function(err){
+            if(err)
+            {
+                console.log('login failure');
+                showLoginLabel();
+                target.lpasswd.value = '';
+                target.lemail.value = '';
+            }
+            else {
+                Router.go('/dashboard');
+            }
+        });
     },
     'click #reg-btn' : function(){
         Router.go('/register');
@@ -83,10 +96,12 @@ Template.login.events({
 
 });
 
-
-Accounts.onLogin(function(){
-    Router.go('/dashboard');
-});
+// Accounts.onLoginFailure(function(){
+//     Router.go('/');
+// });
+// Accounts.onLogin(function(){
+//     Router.go('/dashboard');
+// });
 
 Accounts.onLogout(function(){
     Router.go('/');
