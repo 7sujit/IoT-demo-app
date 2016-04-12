@@ -1,9 +1,9 @@
 <head>
-  <title>Test</title>
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+  <title>Project</title>
+  <link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
   <style media="screen">
       * {
-          font-family: 'Lato', sans-serif;
+          font-family: 'Ubuntu', sans-serif;
           /*border-style: dotted;
           border-width: 1px;*/
       }
@@ -48,8 +48,10 @@
 </template>
 
 <template name="register">
+        <div class="col-lg-3">
 
-        <div align="center" class="row" style="margin:10px;padding:10px;border:5px">
+        </div>
+        <div align="center" class="col-lg-5 well" style="margin:10px;padding:10px;border:5px">
             <h5>Registration From</h5>
 
             <form role="form" id="reg-form">
@@ -66,17 +68,20 @@
                 <div class="row" style="margin:5px;padding:2px;">
                     <label class="label label-danger"  id="alertLable" style="visibility:hidden">Passwords didn't match !</label>
                 </div>
-                <button type="submit" class="btn btn-info">Submit</button>
+                <div class="row" style="margin:5px;padding:2px">
+                    <button type="submit" class="btn btn-info">Register</button><br>
+                </div>
+                <a href="{{pathFor route='login'}}"><p align="center">Already a user ?</p></a>
             </form>
         </div>
 </template>
 
 <template name="login">
     <div class="row">
-        <div class="col-lg-4">
+        <div class="col-lg-3">
 
         </div>
-        <div align="center" class="col-lg-4 well" style="margin:10px;padding:10px;border:5px">
+        <div align="center" class="col-lg-5 well" style="margin:10px;padding:10px;border:5px">
 
             <form role="form" id="login-form">
                 <div class="form-group">

@@ -80,6 +80,10 @@ Template.register.events({
     });
     },
 
+    // 'click #regCancel' : function(){
+    //
+    // },
+
 });
 
 Template.login.events({
