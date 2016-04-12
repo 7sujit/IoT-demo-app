@@ -10,7 +10,7 @@
   </style>
 </head>
 
-<body style="background:#667467">
+<body style="background:#a6abab">
   <div class="container">
 
   </div>
@@ -23,7 +23,7 @@
         </div>
         <div class="col-lg-6">
             <div class="row well" style="background : #B9CFD4">
-                <h1>Project _/\_</h1>
+                <h1>IoT Project Prototype</h1>
             </div>
             {{>yield}}
         </div>
@@ -31,13 +31,20 @@
 </template>
 
 <template name="dashboard">
+    {{#if currentUser}}
     <h3>Welcome </h3>
     <h4>{{accountName}}</h4>
     <div class="row" style="margin:20px; padding:10px">
         <img src="http://sugarscape.cdnds.net/15/49/placeholder_1449233994-catg-cute-cat-gif-7.gif" alt="..." />
     </div>
     <button type="button" class="logout btn btn-primary" name="button">Logout</button>
-
+    {{else}}
+    <h4>You are not logged in</h4>
+    <div class="row" style="margin:20px; padding:10px">
+        <img src="http://static.tumblr.com/d243ef43eb98da500f17caf27591328f/igte7xk/lc6ndv305/tumblr_static_76l56xnqseg4wkwo4okoo88oc.png" alt="..." />
+    </div>
+    <button class="btn btn-primary" id="backToLogin" name="button">Login here</button>
+    {{/if}}
 </template>
 
 <template name="register">

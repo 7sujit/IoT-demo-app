@@ -36,7 +36,9 @@ Template.dashboard.helpers({
 Template.dashboard.events({
     'click .logout' : function(){
         Meteor.logout();
-        // Router.route('/');
+    },
+    'click #backToLogin' : function(){
+        Router.go('/');
     },
 });
 
@@ -61,11 +63,21 @@ Template.register.events({
             showLabel();
             return false;
         }
+
         // else create a new user
         Accounts.createUser({
             email : emailVar,
             password : pwdVar,
-        });
+        },
+    function(err){
+        if(err)
+        {
+            console.log('failed');
+        }
+        else {
+            Router.go('/dashboard');
+        }
+    });
     },
 
 });
