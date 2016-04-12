@@ -49,6 +49,7 @@ Template.register.events({
 
         var target = event.target;
         // var user_name = target.uname.value;
+        var unameVar = target.uname.value;
         var emailVar = target.uemail.value;
 
         var pwdVar = target.xpwd1.value;
@@ -66,6 +67,7 @@ Template.register.events({
 
         // else create a new user
         Accounts.createUser({
+            username: unameVar,
             email : emailVar,
             password : pwdVar,
         },
@@ -90,16 +92,15 @@ Template.login.events({
     'submit #login-form' : function(event){
         event.preventDefault();
         var target = event.target;
-        var uemailVar = target.lemail.value;
+        var usernameVar = target.luname.value;
         var passwdVar = target.lpasswd.value;
 
-        Meteor.loginWithPassword(uemailVar, passwdVar, function(err){
+        Meteor.loginWithPassword(usernameVar, passwdVar, function(err){
             if(err)
             {
                 console.log('login failure');
                 showLoginLabel();
                 target.lpasswd.value = '';
-                target.lemail.value = '';
             }
             else {
                 Router.go('/dashboard');
