@@ -13,9 +13,16 @@ Router.configure({
 });
 
 
-function showLabel(){
+function showLabel(cond){
     var x = document.getElementById('alertLable');
     x.style.visibility = 'visible';
+    if(cond == 1)
+    {
+        x.innerHTML = "Passwords didn't match";
+    }
+    else {
+        x.innerHTML ="User already exist";
+    }
 }
 
 function showLoginLabel() {
@@ -33,10 +40,13 @@ Template.dashboard.helpers({
     },
 });
 
-Template.dashboard.events({
+Template.main.events({
     'click .logout' : function(){
         Meteor.logout();
     },
+});
+
+Template.dashboard.events({
     'click #backToLogin' : function(){
         Router.go('/');
     },
@@ -61,7 +71,7 @@ Template.register.events({
             console.log('Registration failed');
             // alert('Registration failed');
             // Session.set("display","visible");
-            showLabel();
+            showLabel(1);
             return false;
         }
 
@@ -75,6 +85,7 @@ Template.register.events({
         if(err)
         {
             console.log('failed');
+            showLabel(2);
         }
         else {
             Router.go('/dashboard');
@@ -100,6 +111,7 @@ Template.login.events({
             {
                 console.log('login failure');
                 showLoginLabel();
+                target.luname.value = '';
                 target.lpasswd.value = '';
             }
             else {
