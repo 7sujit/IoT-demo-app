@@ -154,6 +154,11 @@ Accounts.onLogout(function(){
 // plotting chart in myChart
 
 function drawChart() {
+    var options = {
+        maintainAspectRatio: false,
+        responsive: true
+    }
+
     var data = {
      labels : ["January","February","March","April","May","June","July"],
      datasets : [
@@ -180,5 +185,5 @@ function drawChart() {
       //This will get the first returned node in the jQuery collection.
       var myNewChart = new Chart(ctx);
 
-      new Chart(ctx).Line(data);
+      new Chart(ctx).Line(data, options);
 }
