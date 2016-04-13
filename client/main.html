@@ -54,13 +54,14 @@
 
 <template name="dashboard">
     {{#if currentUser}}
-    <div class="row" style="margin:20px; padding:10px">
-        <img src="http://sugarscape.cdnds.net/15/49/placeholder_1449233994-catg-cute-cat-gif-7.gif" alt="..." />
+    <div class="row well" style="margin:20px; padding:10px">
+        <!-- <img src="http://sugarscape.cdnds.net/15/49/placeholder_1449233994-catg-cute-cat-gif-7.gif" alt="..." /> -->
+        <canvas id="myChart" height="500" width="700">{{createChart}}</canvas>
     </div>
     {{else}}
     <h4 style="color:#7B1111">You are not logged in</h4>
     <div class="row" style="margin:20px; padding:10px">
-        <img src="http://static.tumblr.com/d243ef43eb98da500f17caf27591328f/igte7xk/lc6ndv305/tumblr_static_76l56xnqseg4wkwo4okoo88oc.png" alt="..." />
+        <!-- <img src="http://static.tumblr.com/d243ef43eb98da500f17caf27591328f/igte7xk/lc6ndv305/tumblr_static_76l56xnqseg4wkwo4okoo88oc.png" alt="..." /> -->
     </div>
     <button class="btn btn-primary" id="backToLogin" name="button">Login here</button>
     {{/if}}
@@ -96,6 +97,9 @@
 </template>
 
 <template name="login">
+    {{#if currentUser}}
+        {{redirectDash}}
+    {{else}}
     <div class="row">
         <div class="col-lg-4">
 
@@ -115,4 +119,5 @@
             </form>
         </div>
     </div>
+    {{/if}}
 </template>
