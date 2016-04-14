@@ -59,15 +59,18 @@
 
 <template name="dashboard">
     {{#if currentUser}}
-    <div class="col-lg-7 well" style="margin:20px; padding:10px">
-        <!-- <img src="http://sugarscape.cdnds.net/15/49/placeholder_1449233994-catg-cute-cat-gif-7.gif" alt="..." /> -->
-        <canvas id="myChart" width="400px" height="300px" style="padding:20px;">{{createChart}}</canvas>
-    </div>
-    <div class="col-lg-4" style="margin:20px; padding:10px">
+
+    <!-- <div class="col-lg-4" style="margin:20px; padding:10px">
         <div class="well">
             <h5>Scratchpad</h5>
             <input type="number" min="0" value="0" id="testValue"><button type="button" style="margin:2px;padding:3px" class="btn btn-primary" id="submitTest">Sense</button>
         </div>
+    </div> -->
+
+    <div class="col-lg-7 well" style="margin:20px; padding:10px">
+        <h5>Real Time Monitoring</h5>
+        <!-- <img src="http://sugarscape.cdnds.net/15/49/placeholder_1449233994-catg-cute-cat-gif-7.gif" alt="..." /> -->
+        <canvas id="myChart" width="400px" height="300px" style="padding:20px;">{{createChart}}</canvas>
     </div>
 
     {{else}}

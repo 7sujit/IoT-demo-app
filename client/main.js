@@ -172,20 +172,23 @@ Accounts.onLogout(function(){
 
 // plotting chart in myChart
 
-var updateHandle = null;
+var updateHandle;
 var flag = 0;
 
 SensorData.find().observeChanges({
    added: function () {
-      drawChart();
+      updateHandle.destroy();
+      drawChart(updateHandle);
+      console.log(updateHandle);
    }
 });
 
 function drawChart() {
     var options = {
         maintainAspectRatio: false,
-        responsive: true,
-        bezierCurve: false
+        responsive: false,
+        bezierCurve: false,
+        animation: false
     }
 
     var obj_list = SensorData.find({},{sort:{createdAt : -1},limit: 7}).fetch();
@@ -198,7 +201,7 @@ function drawChart() {
         console.log(x.getUTCHours() + ':' + x.getUTCMinutes() + ':' + x.getUTCSeconds());
         console.log(y);
 
-        lbl.push(x.getHours() + ':' + x.getMinutes() + ':' + x.getSeconds());
+        lbl.push(x.getUTCHours() + ':' + x.getUTCMinutes() + ':' + x.getUTCSeconds());
         ds.push(y)
     }
     console.log(x);
