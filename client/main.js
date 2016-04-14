@@ -213,8 +213,8 @@ function drawChart() {
      datasets : [
        {
            fillColor : "rgba(0,0,0,0)",
-           strokeColor : "rgba(0,0,150,1)",
-           pointColor : "rgba(150,0,0,1)",
+           strokeColor : "rgba(0,0,200,1)",
+           pointColor : "rgba(200,0,0,1)",
            pointStrokeColor : "#fff",
            data : ds
        },
