@@ -57,6 +57,13 @@ Template.dashboard.helpers({
              });
     },
 
+    'createDonut' : function(){
+        Meteor.defer(function () {
+            console.log('render donut chart');
+            drawDonutChart();
+        });
+    },
+
 });
 
 
@@ -73,6 +80,7 @@ Template.dashboard.events({
             value : data,
         });
     },
+
 });
 
 ////////////// dashboard ends////////////////
@@ -228,5 +236,35 @@ function drawChart() {
       var myNewChart = new Chart(ctx);
 
       updateHandle = new Chart(ctx).Line(data, options);
+
+}
+
+function drawDonutChart() {
+
+    var options = {
+        maintainAspectRatio: false,
+        responsive: false,
+        animation: false
+    }
+
+    var data = [
+        {
+            value: 300,
+            color:"#F7464A",
+            highlight: "#FF5A5E",
+            label: "Energy Wastage"
+        },
+        {
+            value: 150,
+            color: "#46BFBD",
+            highlight: "#5AD3D1",
+            label: "No Wastage"
+        }
+    ]
+
+    var ctx = document.getElementById('myDonutChart').getContext("2d");
+    var myNewChart = new Chart(ctx);
+
+    new Chart(ctx).Doughnut(data, options);
 
 }
