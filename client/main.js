@@ -1,5 +1,8 @@
 import { Template } from 'meteor/templating';
 
+import { SensorData } from '../model/model.js';
+
+import '../model/model.js';
 import './main.html';
 
 Router.map(function(){
@@ -31,6 +34,14 @@ function showLoginLabel() {
 
 // Template.
 
+
+Template.main.events({
+    'click .logout' : function(){
+        Meteor.logout();
+    },
+});
+
+//////////// DASHBOARD //////////////
 Template.dashboard.helpers({
     'accountName' : function(){
         var useDetailsVar = Meteor.user();
@@ -48,17 +59,25 @@ Template.dashboard.helpers({
 
 });
 
-Template.main.events({
-    'click .logout' : function(){
-        Meteor.logout();
-    },
-});
 
 Template.dashboard.events({
     'click #backToLogin' : function(){
         Router.go('/');
     },
+
+    'click #submitTest' : function(event){
+        var data = document.getElementById('testValue').value;
+        console.log(data);
+        SensorData.insert({
+            createdAt : new Date(),
+            value : data,
+        });
+    },
 });
+
+////////////// dashboard ends////////////////
+
+///////////////////// REGISTER EVENTS //////////
 
 Template.register.events({
     'submit #reg-form' : function(event){
@@ -153,29 +172,49 @@ Accounts.onLogout(function(){
 
 // plotting chart in myChart
 
+var updateHandle = null;
+var flag = 0;
+
+SensorData.find().observeChanges({
+   added: function () {
+      drawChart();
+   }
+});
+
 function drawChart() {
     var options = {
         maintainAspectRatio: false,
-        responsive: true
+        responsive: true,
+        bezierCurve: false
     }
 
+    var obj_list = SensorData.find({},{sort:{createdAt : -1},limit: 7}).fetch();
+    var lbl = [];
+    var ds = [];
+    console.log(obj_list);
+    for (var i in obj_list){
+        var x = obj_list[i].createdAt;
+        var y = obj_list[i].value;
+        console.log(x.getUTCHours() + ':' + x.getUTCMinutes() + ':' + x.getUTCSeconds());
+        console.log(y);
+
+        lbl.push(x.getHours() + ':' + x.getMinutes() + ':' + x.getSeconds());
+        ds.push(y)
+    }
+    console.log(x);
+
+    lbl = lbl.reverse();
+    ds = ds.reverse();
     var data = {
-     labels : ["January","February","March","April","May","June","July"],
+     labels : lbl,
      datasets : [
        {
-           fillColor : "rgba(220,220,220,0.5)",
-           strokeColor : "rgba(220,220,220,1)",
-           pointColor : "rgba(220,220,220,1)",
+           fillColor : "rgba(0,0,0,0)",
+           strokeColor : "rgba(0,0,150,1)",
+           pointColor : "rgba(150,0,0,1)",
            pointStrokeColor : "#fff",
-           data : [65,59,90,81,56,55,40]
+           data : ds
        },
-       {
-           fillColor : "rgba(151,187,205,0.5)",
-           strokeColor : "rgba(151,187,205,1)",
-           pointColor : "rgba(151,187,205,1)",
-           pointStrokeColor : "#fff",
-           data : [28,48,40,19,96,27,100]
-       }
        ]
      }
 
@@ -185,5 +224,6 @@ function drawChart() {
       //This will get the first returned node in the jQuery collection.
       var myNewChart = new Chart(ctx);
 
-      new Chart(ctx).Line(data, options);
+      updateHandle = new Chart(ctx).Line(data, options);
+
 }

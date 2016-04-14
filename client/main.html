@@ -49,16 +49,27 @@
           </div><!-- /.container-fluid -->
         </nav>
 
-            {{>yield}}
+        <div class="container">
+            <div class="row" style="padding:10px;margin:20px">
+                {{>yield}}
+            </div>
+        </div>
     </div>
 </template>
 
 <template name="dashboard">
     {{#if currentUser}}
-    <div class="row-fluid well" style="margin:20px; padding:10px">
+    <div class="col-lg-7 well" style="margin:20px; padding:10px">
         <!-- <img src="http://sugarscape.cdnds.net/15/49/placeholder_1449233994-catg-cute-cat-gif-7.gif" alt="..." /> -->
         <canvas id="myChart" width="400px" height="300px" style="padding:20px;">{{createChart}}</canvas>
     </div>
+    <div class="col-lg-4" style="margin:20px; padding:10px">
+        <div class="well">
+            <h5>Scratchpad</h5>
+            <input type="number" min="0" value="0" id="testValue"><button type="button" style="margin:2px;padding:3px" class="btn btn-primary" id="submitTest">Sense</button>
+        </div>
+    </div>
+
     {{else}}
     <h4 style="color:#7B1111">You are not logged in</h4>
     <div class="row" style="margin:20px; padding:10px">
@@ -102,10 +113,10 @@
         {{redirectDash}}
     {{else}}
     <div class="row">
-        <div class="col-lg-4">
+        <div class="col-lg-4 ">
 
         </div>
-        <div align="center" class="col-lg-3 well" style="margin:10px;padding:10px;border:5px;background-color:#e3e0cf">
+        <div align="center" class="col-lg-3 well" style="margin:10px;padding:10px;border:5px;background-color">
 
             <form role="form" id="login-form">
                 <div class="form-group">
