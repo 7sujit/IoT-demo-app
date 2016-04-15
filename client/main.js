@@ -45,21 +45,21 @@ Template.main.events({
 Template.dashboard.helpers({
     'accountName' : function(){
         var useDetailsVar = Meteor.user();
-        console.log(useDetailsVar.emails[0].address);
+        // console.log(useDetailsVar.emails[0].address);
         return useDetailsVar.emails[0].address;
     },
 
     'createChart' : function(){
         Meteor.defer(function() {
                // Create standard Highcharts chart with options:
-               console.log('renderchart');
+            //    console.log('renderchart');
                drawChart();
              });
     },
 
     'createDonut' : function(){
         Meteor.defer(function () {
-            console.log('render donut chart');
+            // console.log('render donut chart');
             drawDonutChart();
         });
     },
@@ -74,7 +74,7 @@ Template.dashboard.events({
 
     'click #submitTest' : function(event){
         var data = document.getElementById('testValue').value;
-        console.log(data);
+        // console.log(data);
         SensorData.insert({
             createdAt : new Date(),
             value : data,
@@ -103,7 +103,7 @@ Template.register.events({
         var n = (pwdVar == pwdVar2);
         if(! n)
         {
-            console.log('Registration failed');
+            // console.log('Registration failed');
             // alert('Registration failed');
             // Session.set("display","visible");
             showLabel(1);
@@ -119,7 +119,7 @@ Template.register.events({
     function(err){
         if(err)
         {
-            console.log('failed');
+            // console.log('failed');
             showLabel(2);
         }
         else {
@@ -150,7 +150,7 @@ Template.login.events({
         Meteor.loginWithPassword(usernameVar, passwdVar, function(err){
             if(err)
             {
-                console.log('login failure');
+                // console.log('login failure');
                 showLoginLabel();
                 target.luname.value = '';
                 target.lpasswd.value = '';
@@ -187,7 +187,7 @@ SensorData.find().observeChanges({
    added: function () {
       updateHandle.destroy();
       drawChart(updateHandle);
-      console.log(updateHandle);
+    //   console.log(updateHandle);
    }
 });
 
@@ -196,23 +196,23 @@ function drawChart() {
         maintainAspectRatio: false,
         responsive: false,
         bezierCurve: false,
-        animation: false
+        animation: false,
     }
 
     var obj_list = SensorData.find({},{sort:{createdAt : -1},limit: 7}).fetch();
     var lbl = [];
     var ds = [];
-    console.log(obj_list);
+    // console.log(obj_list);
     for (var i in obj_list){
         var x = obj_list[i].createdAt;
         var y = obj_list[i].value;
-        console.log(x.getUTCHours() + ':' + x.getUTCMinutes() + ':' + x.getUTCSeconds());
-        console.log(y);
+        // console.log(x.getUTCHours() + ':' + x.getUTCMinutes() + ':' + x.getUTCSeconds());
+        // console.log(y);
 
         lbl.push(x.getUTCHours() + ':' + x.getUTCMinutes() + ':' + x.getUTCSeconds());
         ds.push(y)
     }
-    console.log(x);
+    // console.log(x);
 
     lbl = lbl.reverse();
     ds = ds.reverse();
@@ -229,7 +229,7 @@ function drawChart() {
        ]
      }
 
-     console.log('read mychart');
+    //  console.log('read mychart');
      //Get context with jQuery - using jQuery's .get() method.
      var ctx = document.getElementById('myChart').getContext("2d");
       //This will get the first returned node in the jQuery collection.
