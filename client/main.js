@@ -45,24 +45,21 @@ Template.main.events({
 Template.dashboard.helpers({
     'accountName' : function(){
         var useDetailsVar = Meteor.user();
-        // console.log(useDetailsVar.emails[0].address);
         return useDetailsVar.emails[0].address;
     },
 
     'createChart' : function(){
         Meteor.defer(function() {
                // Create standard Highcharts chart with options:
-            //    console.log('renderchart');
                drawChart();
              });
     },
 
-    'createDonut' : function(){
-        Meteor.defer(function () {
-            // console.log('render donut chart');
-            drawDonutChart();
-        });
-    },
+    // 'createDonut' : function(){
+    //     Meteor.defer(function () {
+    //         drawDonutChart();
+    //     });
+    // },
 
 });
 
@@ -70,17 +67,7 @@ Template.dashboard.helpers({
 Template.dashboard.events({
     'click #backToLogin' : function(){
         Router.go('/');
-    },
-
-    'click #submitTest' : function(event){
-        var data = document.getElementById('testValue').value;
-        // console.log(data);
-        SensorData.insert({
-            createdAt : new Date(),
-            value : data,
-        });
-    },
-
+    }
 });
 
 ////////////// dashboard ends////////////////
@@ -103,7 +90,7 @@ Template.register.events({
         var n = (pwdVar == pwdVar2);
         if(! n)
         {
-            // console.log('Registration failed');
+            console.log('Registration failed');
             // alert('Registration failed');
             // Session.set("display","visible");
             showLabel(1);
@@ -119,7 +106,7 @@ Template.register.events({
     function(err){
         if(err)
         {
-            // console.log('failed');
+            console.log('failed');
             showLabel(2);
         }
         else {
@@ -150,7 +137,7 @@ Template.login.events({
         Meteor.loginWithPassword(usernameVar, passwdVar, function(err){
             if(err)
             {
-                // console.log('login failure');
+                console.log('login failure');
                 showLoginLabel();
                 target.luname.value = '';
                 target.lpasswd.value = '';
@@ -187,19 +174,36 @@ SensorData.find().observeChanges({
    added: function () {
       updateHandle.destroy();
       drawChart(updateHandle);
-    //   console.log(updateHandle);
+      console.log(updateHandle);
    }
 });
 
 function drawChart() {
+
     var options = {
         maintainAspectRatio: false,
         responsive: false,
         bezierCurve: false,
         animation: false,
+        scaleLineColor: "rgba(0,10,0,.5)",
     }
 
-    var obj_list = SensorData.find({},{sort:{createdAt : -1},limit: 7}).fetch();
+
+      var obj_list = SensorData.find({},{sort:{createdAt : -1},limit: 7}).fetch();
+
+    console.log(obj_list[0].presence + ': ' + obj_list[0].createdAt);
+    var s = document.getElementById('indicatorButton')
+    if(obj_list != null || obj_list != 'undefined'){
+      if(obj_list[0].presence == 0)
+      {
+        s.style.background='#FF6347';
+      }
+      else {
+        s.style.background='#008000';
+      }
+    }
+
+
     var lbl = [];
     var ds = [];
     // console.log(obj_list);
@@ -208,28 +212,45 @@ function drawChart() {
         var y = obj_list[i].value;
         // console.log(x.getUTCHours() + ':' + x.getUTCMinutes() + ':' + x.getUTCSeconds());
         // console.log(y);
-
-        lbl.push(x.getUTCHours() + ':' + x.getUTCMinutes() + ':' + x.getUTCSeconds());
-        ds.push(y)
+        // console.log(x);
+        // console.log(x.toString());
+        lbl.push(x.getHours() + ':' + x.getMinutes() + ':' + x.getSeconds());
+        ds.push(y);
     }
     // console.log(x);
 
     lbl = lbl.reverse();
     ds = ds.reverse();
+    thr = []
+    for (var variable in ds) {
+      thr.push(175);
+    }
     var data = {
      labels : lbl,
      datasets : [
        {
-           fillColor : "rgba(0,0,0,0)",
-           strokeColor : "rgba(0,0,200,1)",
-           pointColor : "rgba(200,0,0,1)",
-           pointStrokeColor : "#fff",
+         label: "Target",
+              fillColor : "rgba(0,0,220,0)",
+              strokeColor : "rgba(0,0,200,1)",
+              pointColor : "rgba(200,0,0,1)",
+              pointStrokeColor : "rgba(200,0,0,1)",
+              // pointHighlightFill : "#fff",
+              pointHighlightStroke : "rgba(220,220,220,1)",
            data : ds
        },
+       {
+         label: "Sales",
+                fillColor : "rgba(151,187,205,0.2)",
+                strokeColor : "rgba(151,187,205,1)",
+                pointColor : "rgba(151,187,205,1)",
+                pointStrokeColor : "#fff",
+                pointHighlightFill : "#fff",
+                pointHighlightStroke : "rgba(151,187,205,1)",
+         data : thr
+       }
        ]
      }
 
-    //  console.log('read mychart');
      //Get context with jQuery - using jQuery's .get() method.
      var ctx = document.getElementById('myChart').getContext("2d");
       //This will get the first returned node in the jQuery collection.
@@ -240,12 +261,12 @@ function drawChart() {
 }
 
 function drawDonutChart() {
-
     var options = {
         maintainAspectRatio: false,
         responsive: false,
         animation: false
     }
+
 
     var data = [
         {
@@ -266,5 +287,4 @@ function drawDonutChart() {
     var myNewChart = new Chart(ctx);
 
     new Chart(ctx).Doughnut(data, options);
-
 }
