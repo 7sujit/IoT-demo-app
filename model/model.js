@@ -1,7 +1,7 @@
 import { Mongo } from 'meteor/mongo';
 
 export const SensorData = new Mongo.Collection('sensdata');
-
+PowerData = new Mongo.Collection('powerdat');
 
 
 Meteor.methods({

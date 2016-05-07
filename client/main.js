@@ -189,27 +189,18 @@ function drawChart() {
     }
 
 
-      var obj_list = SensorData.find({},{sort:{createdAt : -1},limit: 7}).fetch();
-
-    console.log(obj_list[0].presence + ': ' + obj_list[0].createdAt);
-    var s = document.getElementById('indicatorButton')
-    if(obj_list != null || obj_list != 'undefined'){
-      if(obj_list[0].presence == 0)
-      {
-        s.style.background='#FF6347';
-      }
-      else {
-        s.style.background='#008000';
-      }
-    }
-
-
+    var obj_list = SensorData.find({},{sort:{createdAt : -1},limit: 7}).fetch();
+    var zero_count = 0;
     var lbl = [];
     var ds = [];
     // console.log(obj_list);
     for (var i in obj_list){
         var x = obj_list[i].createdAt;
         var y = obj_list[i].value;
+        if(obj_list[i].presence == '0'){
+          zero_count = zero_count + 1;
+        }
+        // console.log(obj_list[i].presence);
         // console.log(x.getUTCHours() + ':' + x.getUTCMinutes() + ':' + x.getUTCSeconds());
         // console.log(y);
         // console.log(x);
@@ -217,6 +208,38 @@ function drawChart() {
         lbl.push(x.getHours() + ':' + x.getMinutes() + ':' + x.getSeconds());
         ds.push(y);
     }
+
+    console.log(obj_list[0].presence + ': ' + obj_list[0].createdAt);
+    var s = document.getElementById('indicatorButton')
+    var status = PowerData.find({},{}).fetch();
+    var xstatus = status[0]._id; // ID of the record entry
+    // console.log(status[0]._id._str);
+    console.log(xstatus);
+    var status_id = Meteor.Collection.ObjectID(status[0]._id._str);
+    // if(obj_list != null || obj_list != 'undefined'){
+      if(zero_count >= 4)
+      { // if not present and light intensity is greater than threshold => switch of the lights
+        s.style.background='#FF6347';
+
+        // console.log(status);
+        console.log('zero count : ' + zero_count + ' / color : red');
+        PowerData.update(xstatus,{$set: {'power_on': '0'}});
+        zero_count=0;
+      }
+      else {
+        // if present and light intensity is above threshold_daytime
+        // now only considering presence alone and only for night situation
+
+        s.style.background='#008000';
+        console.log('zero count : ' + zero_count + ' / color : blue');
+        PowerData.update(xstatus,{$set: {'power_on': '1'}});
+
+        zero_count=0;
+      }
+    // }
+
+
+
     // console.log(x);
 
     lbl = lbl.reverse();
