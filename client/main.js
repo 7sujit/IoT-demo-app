@@ -67,6 +67,9 @@ Template.dashboard.helpers({
 Template.dashboard.events({
     'click #backToLogin' : function(){
         Router.go('/');
+    },
+    'click #light' : function(){
+      toggle_light();
     }
 });
 
@@ -169,6 +172,7 @@ Accounts.onLogout(function(){
 
 var updateHandle;
 var flag = 0;
+var shared_var = 1;
 
 SensorData.find().observeChanges({
    added: function () {
@@ -188,8 +192,7 @@ function drawChart() {
         scaleLineColor: "rgba(0,10,0,.5)",
     }
 
-
-    var obj_list = SensorData.find({},{sort:{createdAt : -1},limit: 7}).fetch();
+    var obj_list = SensorData.find({},{sort:{createdAt : -1},limit: 5}).fetch();
     var zero_count = 0;
     var lbl = [];
     var ds = [];
@@ -212,37 +215,45 @@ function drawChart() {
     // console.log(obj_list[0].presence + ': ' + obj_list[0].createdAt);
 
     var s = document.getElementById('indicatorButton')
+    var lights = document.getElementById('light');
+    var status = PowerData.find({},{}).fetch();
+    var xstatus = status[0]._id; // ID of the record entry
+
     if(obj_list[0].presence=='0'){
       //absent
       s.style.background='#FF6347';
     }
     else {
       s.style.background='#008000';
-    }
-    var lights = document.getElementById('light');
-    var status = PowerData.find({},{}).fetch();
-    var xstatus = status[0]._id; // ID of the record entry
-    // console.log(status[0]._id._str);
-    // console.log(xstatus);
-    var status_id = Meteor.Collection.ObjectID(status[0]._id._str);
-
-    if(obj_list[0].presence=='1'){
-      // if present and light intensity is above threshold_daytime
-      // now only considering presence alone and only for night situation
-
-      // s.style.background='#008000';
-      console.log('zero count : ' + zero_count + ' / color : blue');
+      lights.src = "pic_bulbon.gif";
       PowerData.update(xstatus,{$set: {'power_on': '1'}});
-      lights.src='pic_bulbon.gif';
-      zero_count=0;
     }
-    else if(zero_count == 7) // change logic for contigous 4 zero slots
-    { // if not present and light intensity is greater than threshold => switch of the lights
-      console.log('zero count : ' + zero_count + ' / color : red');
-      PowerData.update(xstatus,{$set: {'power_on': '0'}});
-      lights.src='pic_bulboff.gif';
-      zero_count=0;
-    }
+
+    // console.log(status[0]._id._str);
+    // console.log(status);
+    // var status_id = Meteor.Collection.ObjectID(status[0]._id._str);
+
+  //For centrally controlled logic
+    // if(obj_list[0].presence=='1' && status[0].power_on == '0' ){
+    //
+    //   console.log('zero count : ' + zero_count + ' / color : blue');
+    //   PowerData.update(xstatus,{$set: {'power_on': '1','zero_sent' : '0'}});
+    //   lights.src='pic_bulbon.gif';
+    //   console.log('bulbon # 240');
+    //   console.log('bulbon on obj_list[0].presence==1 && status[0].power_on == 0');
+    //   zero_count=0;
+    // }
+    // else if(zero_count == 5) // change logic for contigous 4 zero slots
+    // { // if not present and light intensity is greater than threshold => switch of the lights
+    //   console.log('zero count : ' + zero_count + ' / color : red');
+    //   console.log('else part');
+    //   PowerData.update(xstatus,{$set: {'power_on': '0'}});
+    //   lights.src='pic_bulboff.gif';
+    //   zero_count=0;
+    // }
+
+
+
 
     // console.log(x);
 
@@ -314,4 +325,18 @@ function drawDonutChart() {
     var myNewChart = new Chart(ctx);
 
     new Chart(ctx).Doughnut(data, options);
+}
+
+function toggle_light() {
+  var status = PowerData.find({},{}).fetch();
+  var lights = document.getElementById('light');
+  var xstatus = status[0]._id; // ID of the record entry
+  // console.log(status[0]._id._str);
+  // console.log(xstatus);
+  var status_id = Meteor.Collection.ObjectID(status[0]._id._str);
+  if (lights.src.match("bulbon")) {
+        lights.src = "pic_bulboff.gif";
+        PowerData.update(xstatus,{$set: {'power_on': '0'}});
+        // shared_var = 1;
+    }
 }
